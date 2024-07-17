@@ -1,0 +1,38 @@
+def unboundedKnapsack(k, arr):
+    # Create a DP array of size k+1 initialized to 0
+    dp = [0] * (k + 1)
+    
+    # Iterate over each possible capacity from 1 to k
+    for i in range(1, k + 1):
+        # Try to fill the knapsack using each element in arr
+        for num in arr:
+            if num <= i:
+                dp[i] = max(dp[i], dp[i - num] + num)
+    
+    # The value at dp[k] will be the maximum sum we can achieve without exceeding k
+    return dp[k]
+
+def main():
+    import sys
+    input = sys.stdin.read
+    data = input().split()
+    
+    idx = 0
+    T = int(data[idx])
+    idx += 1
+    
+    results = []
+    
+    for _ in range(T):
+        n, k = int(data[idx]), int(data[idx + 1])
+        idx += 2
+        arr = list(map(int, data[idx:idx + n]))
+        idx += n
+        result = unboundedKnapsack(k, arr)
+        results.append(result)
+    
+    for res in results:
+        print(res)
+
+if __name__ == "__main__":
+    main()
